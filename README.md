@@ -23,4 +23,9 @@ We need to add the coroutine dependencies added at the app level from the folllo
 
 https://developer.android.com/kotlin/coroutines
 
+Coroutine scope is an interface that provides the scope of the coroutine
+
+We need to provide the context and all the coroutines that are going to start within this scope will be running on this context. We need to run this in the background thread. So we need to provide **Dispatchers.IO**. Launch is the CoroutineBuilder. Now adding a coroutine to the existing code
+
+![image](https://github.com/user-attachments/assets/c00cd8bd-ed8c-4ebf-9d4c-25eba895359f)
 
