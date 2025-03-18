@@ -6,7 +6,7 @@ Coroutines API allows us to write asynchronous codes in a sequential manner, hen
 
 **Importance of Asynchronous Programming**
 
-Create a new project and add 2 textviews and 2 button
+Create a new project and add 2 textviews and 2 button as below
 
 ![image](https://github.com/user-attachments/assets/0323051d-8377-4d47-8947-fca70ac263c6)
 
@@ -23,9 +23,48 @@ We need to add the coroutine dependencies added at the app level from the folllo
 
 https://developer.android.com/kotlin/coroutines
 
-Coroutine scope is an interface that provides the scope of the coroutine
-
-We need to provide the context and all the coroutines that are going to start within this scope will be running on this context. We need to run this in the background thread. So we need to provide **Dispatchers.IO**. Launch is the CoroutineBuilder. Now adding a coroutine to the existing code
+Now adding a coroutine to the existing code. The changes required are as below
 
 ![image](https://github.com/user-attachments/assets/c00cd8bd-ed8c-4ebf-9d4c-25eba895359f)
+
+**Scopes, Dispatchers and Builders**
+
+In kotlin coroutines, we must start all the coroutines within the scope. Using the properties of the scope, we can easily keep track of coroutines, cancel the coroutine and handle errors or exceptions thrown by coroutines. 
+**CoroutineScope** is an interface that provides the scope of the coroutine
+
+**GlobalScope** is used to launch top level coroutine which are operating on the application lifetime. We hardly use it
+
+**Dispatcher.IO** acts as a reference to the coroutine context. 
+We need to provide the context and all the coroutines that are going to start within this scope will be running on this context. We need to run this in the background thread. So we need to provide **Dispatchers.IO**. 
+Dispatcher describes the kind of thread where the coroutine should be run. In Kotlin Android structured concurrency, it is always recommended to start coroutines using main thread and then switch to background threads.  
+
+To launch coroutines in the main thread, we use Dispatcher.Main.
+
+We also have IO dispatcher.
+
+Dispatchers.IO,
+
+Dispatchers.Default,
+
+Dispatchers.Unconfined.
+
+So, if we use Dispatcher.Main, the coroutine will run in the Main Thread or UI thread.
+
+As there is only one Main or UI thread, if we create 10 coroutines within a scope with Dispatchers.Main as the context, all those 10 coroutines will run in the same Main thread.
+We only use main dispatcher for small, light weight tasks like call to a UI function, call to a suspending function or to get updates from the livedata. 
+In structured concurrency, the best practice is always starting a coroutine from the Main thread and later switching it to a background thread.
+
+If we use **Dispatchers.IO**, the coroutine will run in a background thread from a shared pool of on-demand created threads. We use this IO dispatcher to work with local database, communicate with network and to work with files.
+
+**Dispatcher.Default** is used for CPU intensive tasks such as sorting a list of data with 10000 list items or parsing a huge JSON file with details of 100000 movies.
+
+**Dispatcher.Unconfined** is a dispatcher used with GlobalScope. If we use Dispatchers.Unconfined, Coroutine will run on the current thread but if it is suspended and resumed, it will run on whichever thread that the suspending function is running on. It is not recommended to use this dispatcher for Android Development. More often, we use Dispatchers.Main and Dispatchers.IO
+
+**Launch** is the CoroutineBuilder. Coroutine builders are extension functions of coroutine scopes, which are used to launch a new coroutine. 
+
+Types of Coroutine Builders:
+1. Launch
+2. Async
+3. RunBlocking
+4. Produce
 
