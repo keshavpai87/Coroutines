@@ -8,6 +8,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,7 +34,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnDownloadUserData.setOnClickListener {
-            downloadUserData()
+            CoroutineScope(Dispatchers.IO).launch { // Adding a coroutine to execute the task
+                downloadUserData()
+            }
+//            downloadUserData ()
         }
     }
 
