@@ -60,6 +60,8 @@ If we use **Dispatchers.IO**, the coroutine will run in a background thread from
 
 **Dispatcher.Unconfined** is a dispatcher used with GlobalScope. If we use Dispatchers.Unconfined, Coroutine will run on the current thread but if it is suspended and resumed, it will run on whichever thread that the suspending function is running on. It is not recommended to use this dispatcher for Android Development. More often, we use Dispatchers.Main and Dispatchers.IO
 
+![image](https://github.com/user-attachments/assets/785accc5-11b8-4b8a-857d-211791ebe155)
+
 **Launch** is the CoroutineBuilder. Coroutine builders are extension functions of coroutine scopes, which are used to launch a new coroutine. 
 
 Types of Coroutine Builders:
@@ -67,4 +69,19 @@ Types of Coroutine Builders:
 2. Async
 3. RunBlocking
 4. Produce
+
+![image](https://github.com/user-attachments/assets/24d9bb67-462d-47a2-9f31-c58e6b9a1fce)
+
+1. **Launch** coroutine builder launches a new coroutine without blocking the current thread. This builder **returns** an instance of **job** which can be used as a reference to the co routine. We can use that returned job instance to keep track of the coroutine and to cancel the coroutine. We use **launch** builder for coroutines that does not have **any result** as the **return value**. This builder returns a Job instance but does not return any computational result. We cannot use this coroutine to calculate something and get the final answer as the returned value. If we want get such result as a returned value we should use **Async** coroutine builder.
+
+2. **Async** coroutine builder allows us to launch multiple coroutines in parallel. Async builder also launches a new coroutine without blocking the current thread. This builder **returns** an instance of **Deferred<T>** type of the result. We use this builder for coroutines that does have a result as the return value. Actually deferred interface is an **extension** of **job interface**. So we can use it like we use job for things like cancelling a coroutine.
+If our result is a string value, the type would be string, If our result is an Int value, the type would be Int. So, to get the value from the deferred object, we need to invoke its **await()** function.
+
+In android development, **Launch** and **Async** builders are the coroutine builders we use most of the time.
+
+**Produce** builder is for coroutines which produces a stream of elements. This builder **returns** an instance of **ReceiveChannel**. 
+
+**Runblocking** builder is mostly **used** for **testing**. It blocks the thread while the coroutine is executing. It **returns** a result of type **T**
+
+**Structured Concurrency** is a set of language features and best practices introduced for Kotlin Coroutines to avoid coroutines leaks and manage the coroutines productively.
 
