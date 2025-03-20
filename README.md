@@ -96,5 +96,7 @@ between threads. Using **withContext()** function, which is a **suspending** fun
 
 ![image](https://github.com/user-attachments/assets/a49021e8-1e6b-4ed8-881c-55c362149a32)
 
+![image](https://github.com/user-attachments/assets/95ee8961-84ed-4653-bd46-913842c67fe1)
+
 **Suspending Functions**
 
