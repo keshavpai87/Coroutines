@@ -100,3 +100,15 @@ between threads. Using **withContext()** function, which is a **suspending** fun
 
 **Suspending Functions**
 
+In kotlin coroutines, whenever a coroutine is suspended, the current stack frame of the function is copied and saved in the memory. When the function resumes, after completing its task,
+the stack frame is copied back from where it was saved and starts running again. Kotlin coroutines API provides us a lot of functions to make our works easier. Almost all of them are suspending functions.
+
+withContext(), withTimeout(), withTimeoutOrNull(), join(), delay(), await(), supervisorScope, coroutineScope. Other than this, there are many other suspending functions. These are some examples of suspending functions provided by the Kotlin coroutines API. Not only coroutines library, other libraries such as room and retrofit also provides suspending funcitons to support us to work with coroutines. If we are ever going to call those first class suspending functions from our functions, we have to mark our functions with suspend modifier.
+
+If we are going to use a suspending function such as withContext(), we have to mark our calling function with suspend modifier. And also if we are going to invoke another suspending function created by us, we have to also mark that calling function with suspend modifier. With suspending modifier, we are actually limiting the use of the function only for coroutines. A suspending function can be called from a coroutine block or from another suspending function only. We cannot invoke a suspending function from a normal function or from other places of the code.
+
+And remember, a coroutine can invoke both suspending and regular functions, but a suspending function can be invoked by a coroutine only. We use suspending functions to avoid thread blockings and hence to provide smooth, uninterrupted experience to the user.
+
+**Async and Await**
+
+Let’s assume we have to get the result from four online data sources and combine them all to show the final result to the user.. Suppose T1 => 10s, T2 => 15s, T3 => 12s, T4 => 13s. Altogether it takes 50s to complete and get the result which is a long wait and a bad experience to the user. To complete thia at the earliest, we need to run all the taks in parallel and we can complete them in 15s. Writing the codes to complete the taska dn combining them all together is called parallel decomposition and this can be achieved using **Async and Await** functions.
