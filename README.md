@@ -79,9 +79,22 @@ If our result is a string value, the type would be string, If our result is an I
 
 In android development, **Launch** and **Async** builders are the coroutine builders we use most of the time.
 
-**Produce** builder is for coroutines which produces a stream of elements. This builder **returns** an instance of **ReceiveChannel**. 
+3. **Produce** builder is for coroutines which produces a stream of elements. This builder **returns** an instance of **ReceiveChannel**. 
 
-**Runblocking** builder is mostly **used** for **testing**. It blocks the thread while the coroutine is executing. It **returns** a result of type **T**
+4. **Runblocking** builder is mostly **used** for **testing**. It blocks the thread while the coroutine is executing. It **returns** a result of type **T**
 
 **Structured Concurrency** is a set of language features and best practices introduced for Kotlin Coroutines to avoid coroutines leaks and manage the coroutines productively.
+
+**Switch the thread of a coroutine**
+
+As its observed that onClick of DownloadUserData, we are displaying the results in the logs. Now we shall make the changes to display it on the UI ie on tvUserMessage textview. As we are using Dispatcher.IO, now the long running task is executing in the background thread.
+
+![image](https://github.com/user-attachments/assets/772be579-b03d-45d8-a9d3-56f1ecd44c53)
+
+In Android, we directly cannot call to view component running in ui thread from background thread like the above. If we run now, it will crash showing a CalledFromWrongThreadException. Only the original thread that created a view hierarchy can touch its views. Therefore, we have to call views from the UI thread. But fortunately, coroutines has the easiest way to switch
+between threads. Using **withContext()** function, which is a **suspending** function, we can switch a coroutine from one thread to another. Suspending Function cannot be called from a normal function.
+
+![image](https://github.com/user-attachments/assets/a49021e8-1e6b-4ed8-881c-55c362149a32)
+
+**Suspending Functions**
 
